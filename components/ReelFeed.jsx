@@ -15,9 +15,33 @@ export default function ReelFeed({ userName }) {
   const [viewingSaved, setViewingSaved] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [progress, setProgress] = useState("0 / 0");
+  const [theme, setTheme] = useState(null);
 
   const feedRef = useRef(null);
   const ioRef = useRef(null);
+
+  // Lee el tema ya aplicado por el script inline de layout.jsx (o el del
+  // sistema si el usuario nunca eligió uno) para que el ícono del botón
+  // arranque sincronizado con lo que se ve en pantalla.
+  useEffect(() => {
+    const current = document.documentElement.getAttribute("data-theme");
+    if (current === "light" || current === "dark") {
+      setTheme(current);
+    } else {
+      setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    }
+  }, []);
+
+  function toggleTheme() {
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem("scicent-theme", next);
+      } catch {}
+      return next;
+    });
+  }
 
   const load = useCallback(async ({ reset = true } = {}) => {
     if (reset) setLoading(true);
@@ -130,6 +154,14 @@ export default function ReelFeed({ userName }) {
         <div className="topbar">
           <div className="brand">Scicent</div>
           <div className="topbar-actions">
+            <button
+              className="iconbtn"
+              onClick={toggleTheme}
+              title="Cambiar tema"
+              aria-label="Cambiar tema claro u oscuro"
+            >
+              <Icon name={theme === "light" ? "moon" : "sun"} />
+            </button>
             <button
               className={"iconbtn" + (viewingSaved ? " on" : "")}
               onClick={() => setViewingSaved((v) => !v)}

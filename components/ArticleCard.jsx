@@ -104,7 +104,7 @@ export default function ArticleCard({ article, onToggle }) {
       </div>
 
       <div className="card-body">
-        <span className="cat-chip" style={{ background: cat.colors.accent + "26", color: cat.colors.accent }}>
+        <span className="cat-chip" style={{ "--chip-accent": cat.colors.accent }}>
           <span className="cat-chip-ico"><Icon name={cat.icon} /></span>
           {cat.label}
         </span>

@@ -110,7 +110,7 @@ export default function CommunityPanel() {
                   </div>
                   {r.comment && <p className="repost-comment">“{r.comment}”</p>}
                   <a className="repost-card" href={r.article.url} target="_blank" rel="noopener noreferrer">
-                    <span className="cat-chip" style={{ background: cat.colors.accent + "26", color: cat.colors.accent }}>
+                    <span className="cat-chip" style={{ "--chip-accent": cat.colors.accent }}>
                       <Icon name={cat.icon} /> {cat.label}
                     </span>
                     <strong>{r.article.title}</strong>

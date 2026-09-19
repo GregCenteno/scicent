@@ -378,6 +378,11 @@ input {
     max-width: 100%;
   }
 }
+.cat-chip-ico,
+.chip-ico {
+  display: inline-flex;
+  align-items: center;
+}
 .cat-chip {
   display: inline-flex;
   align-items: center;

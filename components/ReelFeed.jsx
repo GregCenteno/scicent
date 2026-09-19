@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { signOut } from "next-auth/react";
 import { CATEGORY_LIST } from "@/lib/categories";
 import ArticleCard from "./ArticleCard";
+import Icon from "./Icons";
 
 export default function ReelFeed({ userName }) {
   const [articles, setArticles] = useState([]);
@@ -135,16 +136,16 @@ export default function ReelFeed({ userName }) {
               title="Guardados"
               aria-label="Ver guardados"
             >
-              🔖
+              <Icon name="bookmark" filled={viewingSaved} />
             </button>
             <button className="iconbtn" onClick={() => setSheetOpen(true)} title="Filtrar" aria-label="Filtrar">
-              ▤
+              <Icon name="filter" />
             </button>
             <a className="iconbtn" href="/community" title="Comunidad" aria-label="Comunidad: seguir y ver reposts">
-              👥
+              <Icon name="users" />
             </a>
             <button className="iconbtn" onClick={() => signOut({ callbackUrl: "/login" })} title="Salir" aria-label="Cerrar sesión">
-              ⏻
+              <Icon name="power" />
             </button>
           </div>
         </div>
@@ -156,7 +157,7 @@ export default function ReelFeed({ userName }) {
             <div className="loading">Cargando literatura reciente…</div>
           ) : articles.length === 0 ? (
             <div className="empty">
-              <div className="em">{viewingSaved ? "🔖" : "🩺"}</div>
+              <div className="em"><Icon name={viewingSaved ? "bookmark" : "empty"} /></div>
               <h3>{viewingSaved ? "Aún no guardas nada" : "Sin artículos por ahora"}</h3>
               <p>
                 {viewingSaved
@@ -184,7 +185,7 @@ export default function ReelFeed({ userName }) {
                   style={on ? { background: c.colors.accent, borderColor: "transparent" } : undefined}
                   onClick={() => toggleCat(c.key)}
                 >
-                  <span>{c.emoji}</span>
+                  <span className="chip-ico"><Icon name={c.icon} /></span>
                   <span>{c.label}</span>
                 </button>
               );

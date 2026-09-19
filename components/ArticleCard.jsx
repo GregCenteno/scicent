@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { CATEGORIES } from "@/lib/categories";
 import ThematicBackground from "./ThematicBackground";
+import Icon from "./Icons";
 
 function formatDate(value) {
   if (!value) return "";
@@ -33,7 +34,8 @@ export default function ArticleCard({ article, onToggle }) {
     const y = (e.clientY || rect.height / 2) - rect.top;
     const el = document.createElement("div");
     el.className = "burst-heart";
-    el.textContent = "❤️";
+    el.innerHTML =
+      '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.2s-7.6-4.6-9.7-9.2C.9 7.7 2.6 4.6 5.8 4a4.9 4.9 0 0 1 6.2 2.1A4.9 4.9 0 0 1 18.2 4c3.2.6 4.9 3.7 3.5 7-2.1 4.6-9.7 9.2-9.7 9.2Z"/></svg>';
     el.style.left = x + "px";
     el.style.top = y + "px";
     zone.appendChild(el);
@@ -63,7 +65,7 @@ export default function ArticleCard({ article, onToggle }) {
           }}
           aria-label="Me gusta"
         >
-          <span className="rail-ico">{article.liked ? "❤️" : "🤍"}</span>
+          <span className="rail-ico"><Icon name="heart" filled={article.liked} /></span>
           <span className="rail-count">Me gusta</span>
         </button>
         <button
@@ -74,7 +76,7 @@ export default function ArticleCard({ article, onToggle }) {
           }}
           aria-label="Guardar"
         >
-          <span className="rail-ico">{article.saved ? "🔖" : "📑"}</span>
+          <span className="rail-ico"><Icon name="bookmark" filled={article.saved} /></span>
           <span className="rail-count">Guardar</span>
         </button>
         <button
@@ -85,7 +87,7 @@ export default function ArticleCard({ article, onToggle }) {
           }}
           aria-label="Repostear"
         >
-          <span className="rail-ico">🔁</span>
+          <span className="rail-ico"><Icon name="repeat" /></span>
           <span className="rail-count">{article.reposted ? "Reposteado" : "Repostear"}</span>
         </button>
         <button
@@ -96,14 +98,14 @@ export default function ArticleCard({ article, onToggle }) {
           }}
           aria-label="Compartir"
         >
-          <span className="rail-ico">↗</span>
+          <span className="rail-ico"><Icon name="arrow-up-right" /></span>
           <span className="rail-count">Compartir</span>
         </button>
       </div>
 
       <div className="card-body">
         <span className="cat-chip" style={{ background: cat.colors.accent + "26", color: cat.colors.accent }}>
-          <span>{cat.emoji}</span>
+          <span className="cat-chip-ico"><Icon name={cat.icon} /></span>
           {cat.label}
         </span>
         <h2 className="card-title">{article.title}</h2>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CATEGORIES } from "@/lib/categories";
+import Icon from "./Icons";
 
 function formatDate(value) {
   if (!value) return "";
@@ -105,12 +106,12 @@ export default function CommunityPanel() {
               return (
                 <li key={r.repostId} className="repost-row">
                   <div className="repost-meta">
-                    🔁 <strong>{r.repostedBy.name}</strong> reposteó · {formatDate(r.createdAt)}
+                    <Icon name="repeat" /> <strong>{r.repostedBy.name}</strong> reposteó · {formatDate(r.createdAt)}
                   </div>
                   {r.comment && <p className="repost-comment">“{r.comment}”</p>}
                   <a className="repost-card" href={r.article.url} target="_blank" rel="noopener noreferrer">
                     <span className="cat-chip" style={{ background: cat.colors.accent + "26", color: cat.colors.accent }}>
-                      {cat.emoji} {cat.label}
+                      <Icon name={cat.icon} /> {cat.label}
                     </span>
                     <strong>{r.article.title}</strong>
                     <span className="community-muted">{r.article.hook}</span>

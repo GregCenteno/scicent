@@ -10,6 +10,9 @@
   --accent: #6a4fe0;
   --accent-soft: rgba(106, 79, 224, 0.12);
   --danger: #e0405f;
+  /* Alto de la barra inferior (Inicio/Explorar/Perfil) — el feed y el rail
+     de botones lo suman a su propio padding para no quedar tapados. */
+  --navh: 60px;
   color-scheme: light;
 
   /* El "wash" de las tarjetas sigue el tema. En claro, cubre toda la
@@ -427,7 +430,7 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 20px 18px calc(28px + env(safe-area-inset-bottom, 0px));
+  padding: 20px 18px calc(28px + var(--navh) + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
   text-shadow: var(--scrim-halo);
 }
@@ -544,7 +547,7 @@ input {
 .rail {
   position: absolute;
   right: 12px;
-  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(30px + var(--navh) + env(safe-area-inset-bottom, 0px));
   z-index: 5;
   display: flex;
   flex-direction: column;
@@ -831,7 +834,7 @@ input {
 .btn-follow {
   border: 1px solid var(--accent);
   background: var(--accent);
-  color: #0a0a0f;
+  color: #fff;
   font-weight: 700;
   font-size: 12.5px;
   padding: 8px 14px;
@@ -875,6 +878,265 @@ input {
 .repost-card strong {
   font-size: 14.5px;
   line-height: 1.35;
+}
+
+/* ---------- barra inferior (Inicio / Explorar / Perfil) ---------- */
+.bottomnav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 32;
+  display: flex;
+  align-items: stretch;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+}
+.navbtn {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 10.5px;
+  font-weight: 700;
+  font-family: "Manrope", sans-serif;
+  padding: 9px 4px 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.navbtn.active {
+  color: var(--accent);
+}
+.navico-wrap {
+  position: relative;
+  display: inline-flex;
+  font-size: 21px;
+}
+
+/* ---------- perfil: pantalla completa (dentro del mismo marco .app) ---------- */
+.profile-shell {
+  height: 100%;
+  overflow-y: auto;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 18px calc(28px + var(--navh) + env(safe-area-inset-bottom, 0px));
+}
+.profile-shell h1 {
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.avatar-lg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 17px;
+  flex: none;
+  font-family: "Fraunces", serif;
+}
+.profile-head-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.profile-head-info strong {
+  font-size: 15.5px;
+}
+.profile-head-info span {
+  font-size: 12px;
+  color: var(--text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.profile-head-info #profileUsername {
+  color: var(--accent);
+  font-weight: 700;
+}
+.tab-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-bottom: 16px;
+}
+.tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 6px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-dim);
+  font-weight: 700;
+  font-size: 11.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tab-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: transparent;
+}
+.profile-body {
+  min-height: 120px;
+  margin-bottom: 18px;
+}
+.row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.row-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  text-align: left;
+  width: 100%;
+  color: var(--text);
+  text-decoration: none;
+}
+.row-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+.row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.row-text strong {
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+.row-text span {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+.row-empty {
+  padding: 24px 8px;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.subhead {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-faint);
+  margin: 16px 0 8px;
+}
+.subhead:first-child {
+  margin-top: 0;
+}
+.sheet-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--text-dim);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.sheet-note svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--accent);
+}
+.theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 13px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.theme-row-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.theme-switch {
+  display: flex;
+  background: var(--surface);
+  border-radius: 100px;
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+.theme-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+.theme-opt.active {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--danger);
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,5 +1,63 @@
 :root {
-  --bg-page: #08070c;
+  /* ---- paleta clara (default) ---- */
+  --bg-page: #eef0f4;
+  --surface: #ffffff;
+  --surface-2: #f2f2f6;
+  --text: #14141b;
+  --text-dim: #5b586a;
+  --text-faint: #8b899a;
+  --border: rgba(20, 20, 30, 0.11);
+  --accent: #6a4fe0;
+  --accent-soft: rgba(106, 79, 224, 0.12);
+  --danger: #e0405f;
+  color-scheme: light;
+
+  /* El "wash" de las tarjetas sigue el tema. En claro, cubre toda la
+     tarjeta desde arriba con un tinte casi transparente, así el arte
+     generativo de fondo se queda en tonos pastel y el texto se lee en
+     tinta oscura sin necesitar un halo detrás. En oscuro, el arte se ve
+     completo arriba y solo se oscurece cerca del texto, abajo. */
+  --scrim-wash-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.64) 32%, rgba(255, 255, 255, 0.96) 60%);
+  --scrim-wash-mask: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.72) 32%, rgba(0, 0, 0, 1) 60%);
+  --scrim-text: #17161f;
+  --scrim-text-dim: #3d3b49;
+  --scrim-text-faint: rgba(23, 22, 31, 0.64);
+  --scrim-chip-bg: rgba(255, 255, 255, 0.64);
+  --scrim-chip-border: rgba(23, 22, 31, 0.12);
+  --scrim-cta-bg: rgba(23, 22, 31, 0.82);
+  --scrim-cta-bg-active: rgba(23, 22, 31, 0.95);
+  --scrim-cta-text: #fff;
+  --scrim-halo: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-page: #050508;
+    --surface: #15141c;
+    --surface-2: #1d1c26;
+    --text: #f4f2ee;
+    --text-dim: #aeacba;
+    --text-faint: #726f80;
+    --border: rgba(244, 242, 238, 0.1);
+    --accent: #8b7cf6;
+    --accent-soft: rgba(139, 124, 246, 0.18);
+    --danger: #ff5d7a;
+    color-scheme: dark;
+
+    --scrim-wash-bg: linear-gradient(180deg, transparent 4%, rgba(8, 8, 13, 0.52) 32%, rgba(6, 6, 10, 0.88) 62%);
+    --scrim-wash-mask: linear-gradient(180deg, transparent 4%, rgba(0, 0, 0, 0.65) 32%, rgba(0, 0, 0, 1) 62%);
+    --scrim-text: #f4f2ee;
+    --scrim-text-dim: #ece9f7;
+    --scrim-text-faint: rgba(244, 242, 238, 0.68);
+    --scrim-chip-bg: rgba(20, 19, 27, 0.6);
+    --scrim-chip-border: rgba(244, 242, 238, 0.14);
+    --scrim-cta-bg: rgba(255, 255, 255, 0.16);
+    --scrim-cta-bg-active: rgba(255, 255, 255, 0.26);
+    --scrim-cta-text: #f4f2ee;
+    --scrim-halo: 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.55), 0 0 2px rgba(0, 0, 0, 0.85);
+  }
+}
+:root[data-theme="dark"] {
+  --bg-page: #050508;
   --surface: #15141c;
   --surface-2: #1d1c26;
   --text: #f4f2ee;
@@ -10,6 +68,21 @@
   --accent-soft: rgba(139, 124, 246, 0.18);
   --danger: #ff5d7a;
   color-scheme: dark;
+
+  --scrim-wash-bg: linear-gradient(180deg, transparent 4%, rgba(8, 8, 13, 0.52) 32%, rgba(6, 6, 10, 0.88) 62%);
+  --scrim-wash-mask: linear-gradient(180deg, transparent 4%, rgba(0, 0, 0, 0.65) 32%, rgba(0, 0, 0, 1) 62%);
+  --scrim-text: #f4f2ee;
+  --scrim-text-dim: #ece9f7;
+  --scrim-text-faint: rgba(244, 242, 238, 0.68);
+  --scrim-chip-bg: rgba(20, 19, 27, 0.6);
+  --scrim-chip-border: rgba(244, 242, 238, 0.14);
+  --scrim-cta-bg: rgba(255, 255, 255, 0.16);
+  --scrim-cta-bg-active: rgba(255, 255, 255, 0.26);
+  --scrim-cta-text: #f4f2ee;
+  --scrim-halo: 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.55), 0 0 2px rgba(0, 0, 0, 0.85);
+}
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 * {
@@ -25,14 +98,16 @@ body {
   margin: 0;
   background: var(--bg-page);
   color: var(--text);
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 h1,
 h2,
 h3 {
   margin: 0;
+  font-family: "Fraunces", Georgia, serif;
 }
 
 a {
@@ -233,11 +308,12 @@ input {
   height: calc(100dvh - 48px);
   min-height: 560px;
   max-height: 920px;
-  background: #0a0a0f;
+  background: var(--surface);
   border-radius: 28px;
   border: 1px solid var(--border);
-  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.02) inset;
   overflow: hidden;
+  isolation: isolate;
 }
 @media (max-width: 480px) {
   .stage {
@@ -267,7 +343,6 @@ input {
   justify-content: space-between;
   gap: 10px;
   pointer-events: none;
-  background: linear-gradient(rgba(6, 6, 10, 0.78), rgba(6, 6, 10, 0.35) 65%, transparent);
 }
 .topbar > * {
   pointer-events: auto;
@@ -276,8 +351,19 @@ input {
   display: flex;
   align-items: baseline;
   gap: 7px;
-  font-weight: 800;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 600;
   font-size: 18px;
+  letter-spacing: 0.2px;
+  color: var(--scrim-text);
+}
+.brand .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px 1px var(--accent);
 }
 .topbar-actions {
   display: flex;
@@ -290,12 +376,13 @@ input {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid var(--border);
-  background: rgba(20, 19, 27, 0.65);
-  color: var(--text);
+  border: 1px solid var(--scrim-chip-border);
+  background: var(--scrim-chip-bg);
+  color: var(--scrim-text);
   cursor: pointer;
   font-size: 16px;
   position: relative;
+  backdrop-filter: blur(6px);
 }
 .iconbtn.on {
   background: var(--accent-soft);
@@ -342,6 +429,7 @@ input {
   justify-content: flex-end;
   padding: 20px 18px calc(28px + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
+  text-shadow: var(--scrim-halo);
 }
 .card-bg {
   position: absolute;
@@ -353,11 +441,20 @@ input {
   height: 100%;
   display: block;
 }
+.card-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+  -webkit-mask-image: var(--scrim-wash-mask);
+  mask-image: var(--scrim-wash-mask);
+}
 .card-bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 28%, rgba(6, 6, 10, 0.58) 78%, rgba(6, 6, 10, 0.88) 100%);
+  background: var(--scrim-wash-bg);
 }
 .card-tapzone {
   position: absolute;
@@ -390,28 +487,36 @@ input {
   align-self: flex-start;
   padding: 6px 11px 6px 8px;
   border-radius: 100px;
-  font-size: 12px;
+  color: #fff;
+  background: color-mix(in srgb, var(--chip-accent, var(--accent)) 74%, #000 26%);
+  box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.4);
+  font-family: "Manrope";
+  font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 .card-title {
-  font-size: 25px;
-  line-height: 1.2;
-  font-weight: 800;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 24px;
+  line-height: 1.18;
+  font-weight: 600;
+  color: var(--scrim-text);
 }
 .card-hook {
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.5;
-  color: #ece9f7;
+  font-weight: 500;
+  color: var(--scrim-text-dim);
 }
 .card-source {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  font-size: 11.5px;
-  color: var(--text-faint);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  color: var(--scrim-text-faint);
 }
 .card-source .sep {
   opacity: 0.5;
@@ -420,16 +525,20 @@ input {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--text);
+  color: var(--scrim-cta-text);
   text-decoration: none;
+  font-family: "Manrope";
   font-weight: 700;
-  font-size: 12.5px;
-  padding: 8px 13px;
+  font-size: 12px;
+  padding: 8px 12px;
   border-radius: 100px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--scrim-cta-bg);
+  border: 1px solid var(--scrim-chip-border);
   margin-left: auto;
   white-space: nowrap;
+}
+.card-source a:active {
+  background: var(--scrim-cta-bg-active);
 }
 
 .rail {
@@ -449,35 +558,43 @@ input {
   gap: 4px;
   background: none;
   border: none;
-  color: var(--text);
+  color: var(--scrim-text);
   cursor: pointer;
+  padding: 0;
 }
 .rail-ico {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(20, 19, 27, 0.6);
-  border: 1px solid var(--border);
-  font-size: 20px;
+  background: var(--scrim-chip-bg);
+  border: 1px solid var(--scrim-chip-border);
+  box-shadow: 0 4px 14px rgba(21, 20, 29, 0.14);
+  backdrop-filter: blur(6px);
+  font-size: 19px;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+.rail-btn:active .rail-ico {
+  transform: scale(0.86);
 }
 .rail-btn.liked .rail-ico {
-  background: rgba(255, 93, 122, 0.2);
+  background: rgba(224, 64, 95, 0.22);
   color: var(--danger);
 }
 .rail-btn.saved .rail-ico {
-  background: var(--accent-soft);
+  background: rgba(139, 124, 246, 0.22);
   color: var(--accent);
 }
 .rail-btn.reposted .rail-ico {
-  background: rgba(62, 224, 138, 0.2);
-  color: #3ee08a;
+  background: rgba(62, 224, 138, 0.22);
+  color: #2f9d63;
 }
 .rail-count {
-  font-size: 11px;
-  color: var(--text-dim);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  color: var(--scrim-text-faint);
 }
 
 .progress {
@@ -485,12 +602,15 @@ input {
   top: calc(58px + env(safe-area-inset-top, 0px));
   right: 14px;
   z-index: 5;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
-  color: var(--text-faint);
-  background: rgba(20, 19, 27, 0.55);
+  color: var(--scrim-text-faint);
+  background: var(--scrim-chip-bg);
   padding: 5px 9px;
   border-radius: 100px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--scrim-chip-border);
+  backdrop-filter: blur(6px);
+  font-variant-numeric: tabular-nums;
 }
 
 .chips {
@@ -512,7 +632,7 @@ input {
   cursor: pointer;
 }
 .chip.active {
-  color: #0a0a0f;
+  color: #fff;
   border-color: transparent;
 }
 .scrim {
@@ -598,10 +718,12 @@ input {
 }
 .empty .em {
   font-size: 44px;
+  color: var(--text-faint);
 }
 .empty h3 {
+  font-family: "Fraunces", serif;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 600;
 }
 .empty p {
   color: var(--text-dim);
@@ -613,9 +735,14 @@ input {
 .burst-heart {
   position: absolute;
   z-index: 6;
-  font-size: 74px;
   pointer-events: none;
+  color: #ff5d7a;
+  filter: drop-shadow(0 6px 18px rgba(255, 93, 122, 0.5));
   animation: burst 0.75s ease forwards;
+}
+.burst-heart svg {
+  width: 64px;
+  height: 64px;
 }
 @keyframes burst {
   0% {

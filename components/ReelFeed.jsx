@@ -133,7 +133,7 @@ export default function ReelFeed({ userName }) {
       <div className="app">
         <div className="topbar">
           <div className="brand">
-            <span className="dot" />
+            <img src="/logo-mark.png" alt="" className="brand-mark" />
             Scicent
           </div>
         </div>

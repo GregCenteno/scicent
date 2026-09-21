@@ -15,6 +15,8 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
   const savedOnly = searchParams.get("saved") === "1";
+  const likedOnly = searchParams.get("liked") === "1";
+  const repostedOnly = searchParams.get("reposted") === "1";
   const cursor = searchParams.get("cursor") || undefined;
   const limit = Math.min(Number(searchParams.get("limit")) || 20, 50);
 
@@ -27,6 +29,10 @@ export async function GET(req) {
     ...(savedOnly
       ? { interactions: { some: { userId: session.user.id, saved: true } } }
       : {}),
+    ...(likedOnly
+      ? { interactions: { some: { userId: session.user.id, liked: true } } }
+      : {}),
+    ...(repostedOnly ? { reposts: { some: { userId: session.user.id } } } : {}),
   };
 
   const articles = await prisma.article.findMany({

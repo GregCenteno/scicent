@@ -128,6 +128,38 @@ const PATHS = {
     </g>
   ),
   moon: <path d="M20 14.5a8.5 8.5 0 1 1-9.5-13 7 7 0 0 0 9.5 13Z" />,
+  home: (
+    <g>
+      <path d="M4 11.3 12 4l8 7.3" />
+      <path d="M6 10v9.2a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1V10" />
+    </g>
+  ),
+  search: (
+    <g>
+      <circle cx="11" cy="11" r="6.5" />
+      <line x1="20" y1="20" x2="15.7" y2="15.7" />
+    </g>
+  ),
+  user: (
+    <g>
+      <circle cx="12" cy="8" r="3.6" />
+      <path d="M4.5 20c1.4-3.6 4.4-5.5 7.5-5.5s6.1 1.9 7.5 5.5" />
+    </g>
+  ),
+  logout: (
+    <g>
+      <path d="M9.5 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h3.5" />
+      <path d="M14 8l4 4-4 4" />
+      <line x1="18" y1="12" x2="9" y2="12" />
+    </g>
+  ),
+  info: (
+    <g>
+      <circle cx="12" cy="12" r="8.3" />
+      <line x1="12" y1="11.2" x2="12" y2="16.5" />
+      <circle cx="12" cy="7.9" r="1" fill="currentColor" stroke="none" />
+    </g>
+  ),
   flask: (
     <g>
       <path d="M10 3h4" />

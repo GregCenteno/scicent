@@ -31,6 +31,11 @@
   --scrim-cta-bg-active: rgba(23, 22, 31, 0.95);
   --scrim-cta-text: #fff;
   --scrim-halo: none;
+  /* El logo tiene colores fijos (azul marino, teal, blanco) que no se
+     adaptan solos al tema como el texto. En claro le damos una sombra
+     suave para que no se pierda sobre fondos muy claros; en oscuro un
+     resplandor claro para que el azul marino no se funda con el fondo. */
+  --scrim-mark-halo: drop-shadow(0 1px 3px rgba(23, 22, 31, 0.35));
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -57,6 +62,7 @@
     --scrim-cta-bg-active: rgba(255, 255, 255, 0.26);
     --scrim-cta-text: #f4f2ee;
     --scrim-halo: 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.55), 0 0 2px rgba(0, 0, 0, 0.85);
+    --scrim-mark-halo: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)) drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
   }
 }
 :root[data-theme="dark"] {
@@ -83,9 +89,11 @@
   --scrim-cta-bg-active: rgba(255, 255, 255, 0.26);
   --scrim-cta-text: #f4f2ee;
   --scrim-halo: 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.55), 0 0 2px rgba(0, 0, 0, 0.85);
+  --scrim-mark-halo: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)) drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
 }
 :root[data-theme="light"] {
   color-scheme: light;
+  --scrim-mark-halo: drop-shadow(0 1px 3px rgba(23, 22, 31, 0.35));
 }
 
 * {
@@ -361,12 +369,11 @@ input {
   letter-spacing: 0.2px;
   color: var(--scrim-text);
 }
-.brand .dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px 1px var(--accent);
+.brand-mark {
+  height: 22px;
+  width: auto;
+  display: block;
+  filter: var(--scrim-mark-halo);
 }
 .topbar-actions {
   display: flex;

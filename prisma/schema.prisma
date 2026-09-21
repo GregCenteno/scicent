@@ -42,6 +42,14 @@ model Article {
   abstract      String?       @db.Text
   journal       String?
   authors       String?
+  // Código de idioma tal como lo reporta Europe PMC (p. ej. "spa", "eng").
+  // Puede venir vacío si la fuente no lo informa.
+  language      String?
+  // Derivado de `language` al momento de la ingesta — permite ordenar
+  // "primero en español" sin comparar strings en cada consulta.
+  isSpanish     Boolean       @default(false)
+  // Tal como lo reporta Europe PMC (campo isOpenAccess: "Y"/"N").
+  isOpenAccess  Boolean       @default(false)
   publishedAt   DateTime?
   url           String
   createdAt     DateTime      @default(now())
@@ -49,6 +57,7 @@ model Article {
   reposts       Repost[]
 
   @@index([category, publishedAt])
+  @@index([isSpanish, publishedAt])
 }
 
 model Interaction {

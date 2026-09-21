@@ -37,7 +37,9 @@ export async function GET(req) {
 
   const articles = await prisma.article.findMany({
     where,
-    orderBy: { publishedAt: "desc" },
+    // Primero lo que está en español, y dentro de cada grupo, lo más
+    // reciente — pedido explícito: priorizar literatura en español.
+    orderBy: [{ isSpanish: "desc" }, { publishedAt: "desc" }],
     take: limit + 1,
     ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
     include: {
@@ -54,6 +56,8 @@ export async function GET(req) {
     hook: a.hook,
     journal: a.journal,
     authors: a.authors,
+    language: a.language,
+    isOpenAccess: a.isOpenAccess,
     publishedAt: a.publishedAt,
     url: a.url,
     liked: a.interactions[0]?.liked ?? false,

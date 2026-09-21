@@ -512,6 +512,27 @@ input {
   font-weight: 500;
   color: var(--scrim-text-dim);
 }
+.oa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  padding: 5px 10px 5px 8px;
+  border-radius: 100px;
+  font-family: "Manrope", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--scrim-text-dim);
+  background: var(--scrim-chip-bg);
+  border: 1px solid var(--scrim-chip-border);
+  backdrop-filter: blur(6px);
+}
+.oa-badge svg {
+  font-size: 13px;
+}
+.oa-badge.open {
+  color: #2f9d63;
+}
 .card-source {
   display: flex;
   align-items: center;
@@ -764,25 +785,18 @@ input {
 
 /* ---------- community ---------- */
 .community-shell {
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 20px 18px calc(40px + env(safe-area-inset-bottom, 0px));
+  height: 100%;
+  overflow-y: auto;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 18px calc(28px + var(--navh) + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   gap: 28px;
 }
-.community-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: env(safe-area-inset-top, 0px);
-}
 .community-topbar h1 {
-  font-size: 18px;
-  font-weight: 800;
-}
-.community-topbar .iconbtn {
-  text-decoration: none;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 600;
 }
 .community-section h2 {
   font-size: 15px;

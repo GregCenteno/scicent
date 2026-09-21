@@ -19,7 +19,7 @@ function formatDate(value) {
 const TABS = [
   { key: "seguidores", label: "Seguidores", icon: "users" },
   { key: "siguiendo", label: "Siguiendo", icon: "user" },
-  { key: "reposts", label: "Reposts", icon: "repeat" },
+  { key: "reposts", label: "Reposteado", icon: "repeat" },
   { key: "favoritos", label: "Favoritos", icon: "heart" },
   { key: "guardados", label: "Guardados", icon: "bookmark" },
 ];
@@ -61,7 +61,6 @@ export default function ProfilePanel({ user }) {
 
   const [followers, setFollowers] = useState(null);
   const [following, setFollowing] = useState(null);
-  const [followingFeed, setFollowingFeed] = useState(null);
   const [reposts, setReposts] = useState(null);
   const [favorites, setFavorites] = useState(null);
   const [saved, setSaved] = useState(null);
@@ -93,9 +92,6 @@ export default function ProfilePanel({ user }) {
       fetch("/api/users")
         .then((r) => r.json())
         .then((d) => setFollowing(d.users || []));
-      fetch("/api/feed/following")
-        .then((r) => r.json())
-        .then((d) => setFollowingFeed(d.reposts || []));
     } else if (tab === "reposts" && reposts === null) {
       fetch("/api/articles?reposted=1")
         .then((r) => r.json())
@@ -109,7 +105,7 @@ export default function ProfilePanel({ user }) {
         .then((r) => r.json())
         .then((d) => setSaved(d.articles || []));
     }
-  }, [tab, followers, following, followingFeed, reposts, favorites, saved]);
+  }, [tab, followers, following, reposts, favorites, saved]);
 
   async function toggleFollowBack(userId) {
     setFollowers((prev) =>
@@ -211,34 +207,10 @@ export default function ProfilePanel({ user }) {
               </ul>
             </>
           )}
-          <div className="subhead">Lo que repostearon</div>
-          {followingFeed === null ? (
-            <RowEmpty>Cargando…</RowEmpty>
-          ) : followingFeed.length === 0 ? (
-            <RowEmpty>
-              Sigue a alguien arriba y en cuanto reposte algo aparece aquí.
-            </RowEmpty>
-          ) : (
-            <ul className="repost-list">
-              {followingFeed.map((r) => {
-                const cat = CATEGORIES[r.article.category];
-                return (
-                  <li key={r.repostId} className="repost-row">
-                    <div className="repost-meta">
-                      <Icon name="repeat" /> <strong>{r.repostedBy.name}</strong> reposteó · {formatDate(r.createdAt)}
-                    </div>
-                    {r.comment && <p className="repost-comment">“{r.comment}”</p>}
-                    <a className="repost-card" href={r.article.url} target="_blank" rel="noopener noreferrer">
-                      <span className="cat-chip" style={{ "--chip-accent": cat?.colors.accent }}>
-                        <Icon name={cat?.icon} /> {cat?.label}
-                      </span>
-                      <strong>{r.article.title}</strong>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
+          <div className="sheet-note">
+            <Icon name="info" />
+            <span>Para ver lo que han reposteado las cuentas que sigues, entra a la pestaña Comunidad de la barra inferior.</span>
+          </div>
         </>
       );
     }

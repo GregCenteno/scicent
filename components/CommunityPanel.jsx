@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { CATEGORIES } from "@/lib/categories";
 import Icon from "./Icons";
+import BottomNav from "./BottomNav";
 
 function formatDate(value) {
   if (!value) return "";
@@ -50,13 +50,11 @@ export default function CommunityPanel() {
   }
 
   return (
-    <div className="community-shell">
+    <div className="stage">
+      <div className="app">
+        <div className="community-shell">
       <div className="community-topbar">
-        <Link href="/feed" className="iconbtn" aria-label="Volver al feed">
-          ←
-        </Link>
         <h1>Comunidad</h1>
-        <span style={{ width: 38 }} />
       </div>
 
       <section className="community-section">
@@ -122,6 +120,10 @@ export default function CommunityPanel() {
           </ul>
         )}
       </section>
+        </div>
+
+        <BottomNav active="community" />
+      </div>
     </div>
   );
 }

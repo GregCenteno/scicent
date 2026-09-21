@@ -110,6 +110,10 @@ export default function ArticleCard({ article, onToggle }) {
         </span>
         <h2 className="card-title">{article.title}</h2>
         <p className="card-hook">{article.hook}</p>
+        <span className={"oa-badge" + (article.isOpenAccess ? " open" : "")}>
+          <Icon name={article.isOpenAccess ? "unlock" : "lock"} />
+          {article.isOpenAccess ? "Acceso abierto" : "Acceso restringido"}
+        </span>
         <div className="card-source">
           <span>{article.journal || "Europe PMC"}</span>
           <span className="sep">·</span>

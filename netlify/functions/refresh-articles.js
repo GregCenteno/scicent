@@ -3,8 +3,20 @@
 // ([functions."refresh-articles"].schedule), no aquí.
 //
 // No duplica la lógica de ingestión: llama a la misma ruta protegida por
-// CRON_SECRET que ya existe en app/api/articles/refresh/route.js, igual que
-// harías a mano con curl (ver README).
+// CRON_SECRET que ya existe en app/api/articles/refresh/route.js — pero
+// UNA VEZ POR CATEGORÍA en vez de una sola llamada gigante, para que cada
+// llamada individual sea rápida y no se acerque al límite de tiempo de
+// una función serverless.
+const CATEGORY_KEYS = [
+  "ENFERMERIA",
+  "MEDICINA",
+  "FARMACIA",
+  "NUTRICION",
+  "REHABILITACION",
+  "ODONTOLOGIA",
+  "LABORATORIO_CLINICO",
+];
+
 exports.handler = async () => {
   const base = process.env.URL || process.env.DEPLOY_PRIME_URL;
 
@@ -17,15 +29,27 @@ exports.handler = async () => {
     return { statusCode: 500, body: "Falta CRON_SECRET" };
   }
 
-  const res = await fetch(`${base}/api/articles/refresh`, {
-    method: "POST",
-    headers: { "x-cron-secret": process.env.CRON_SECRET },
-  });
-  const body = await res.text();
+  const results = {};
+  let anyFailed = false;
 
-  if (!res.ok) {
-    console.error("Refresh del feed falló:", res.status, body);
+  for (const category of CATEGORY_KEYS) {
+    try {
+      const res = await fetch(`${base}/api/articles/refresh?category=${category}`, {
+        method: "POST",
+        headers: { "x-cron-secret": process.env.CRON_SECRET },
+      });
+      const body = await res.json().catch(() => ({}));
+      results[category] = body;
+      if (!res.ok) {
+        anyFailed = true;
+        console.error(`Refresh de ${category} falló:`, res.status, body);
+      }
+    } catch (err) {
+      anyFailed = true;
+      results[category] = { error: String(err?.message || err) };
+      console.error(`Refresh de ${category} lanzó un error:`, err);
+    }
   }
 
-  return { statusCode: res.status, body };
+  return { statusCode: anyFailed ? 207 : 200, body: JSON.stringify(results) };
 };
